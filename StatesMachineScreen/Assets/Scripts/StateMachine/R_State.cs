@@ -20,6 +20,10 @@ namespace R_ScreenStateMachine
         public abstract R_StateType StateType { get; }
         public abstract R_StateType NextState { get; }
 
+        public abstract void ActivateState();
+
+        public abstract void DeactivateState();
+
         public void Initialize(R_StateMachine stateMachine, R_LoadingManager loadingManager)
         {
             StateMachine = stateMachine;

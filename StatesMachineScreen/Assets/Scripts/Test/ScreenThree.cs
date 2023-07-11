@@ -11,18 +11,19 @@ public class ScreenThree : R_State
 
     public override R_StateType NextState => R_StateType.End;
 
-    private void OnEnable()
-    {
-        buttonFinish.onClick.AddListener(Finish);
-    }
-
-    private void OnDisable()
-    {
-        buttonFinish.onClick.RemoveListener(Finish);
-    }
 
     private void Finish()
     {
         StateMachine.SetState(R_StateType.End);
+    }
+
+    public override void ActivateState()
+    {
+        buttonFinish.onClick.AddListener(Finish);
+    }
+
+    public override void DeactivateState()
+    {
+        buttonFinish.onClick.RemoveListener(Finish);
     }
 }

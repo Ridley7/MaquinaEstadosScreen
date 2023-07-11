@@ -31,7 +31,7 @@ namespace R_ScreenStateMachine
             if (previousState != R_StateType.None)
             {
                 //La primera es desactivar el estado actual
-                stateTypeMap[previousState].gameObject.SetActive(false);
+                DeactivateState(stateTypeMap[previousState]);
 
                 //Comprobamos si es un estado que tenemos que saltarnos por algun motivo
                 if (statesToSkip.Contains(stateType))
@@ -51,7 +51,9 @@ namespace R_ScreenStateMachine
             if (stateType != R_StateType.End)
             {
                 //Activamos el nuevo estado
-                stateTypeMap[currentState].gameObject.SetActive(true);
+                //stateTypeMap[currentState].gameObject.SetActive(true);
+                ActivateState(stateTypeMap[currentState]);
+
             }
 
             //Indicamos a todos los que esten suscritos al evento StateChanged que se ha producido
@@ -65,20 +67,32 @@ namespace R_ScreenStateMachine
             previousStates.Clear();
         }
 
-        public void Back()
+        public void GoToPreviousState()
         {
             //Regresamos a un estado anterior
             var previousState = currentState;
-            stateTypeMap[previousState].gameObject.SetActive(false);
+            DeactivateState(stateTypeMap[previousState]);
             //Obtenemos el estado anterior
             currentState = previousStates.Pop();
             if (currentState != R_StateType.None)
             {
                 //Activamos el estado anterior
-                stateTypeMap[currentState].gameObject.SetActive(true);
+                ActivateState(stateTypeMap[currentState]);
                 //Avisamos de que se ha cambiado el estado
                 StateChanged?.Invoke(currentState, previousState);
             }
+        }
+
+        private void ActivateState(R_State state)
+        {
+            state.gameObject.SetActive(true);
+            state.ActivateState();
+        }
+
+        private void DeactivateState(R_State state)
+        {
+            state.gameObject.SetActive(false);
+            state.DeactivateState();
         }
     }
 }

@@ -11,20 +11,21 @@ public class ScreenOne : R_State
 
     public override R_StateType NextState => R_StateType.ScreenTwo;
 
-    private void OnEnable()
-    {
-        Debug.Log("On enable");
-        buttonScreenTwo.onClick.AddListener(GoToScreenTwo);
-    }
-
-    private void OnDisable()
-    {
-        buttonScreenTwo.onClick.RemoveListener(GoToScreenTwo);
-    }
 
     private void GoToScreenTwo()
     {
         Debug.Log("CLickando boton screen dos");
         StateMachine.SetState(R_StateType.ScreenTwo);
+    }
+
+    public override void ActivateState()
+    {
+        Debug.Log("On enable");
+        buttonScreenTwo.onClick.AddListener(GoToScreenTwo);
+    }
+
+    public override void DeactivateState()
+    {
+        buttonScreenTwo.onClick.RemoveListener(GoToScreenTwo);
     }
 }

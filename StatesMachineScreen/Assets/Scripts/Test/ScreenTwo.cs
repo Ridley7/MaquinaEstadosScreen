@@ -13,15 +13,6 @@ public class ScreenTwo : R_State
 
     public override R_StateType NextState => R_StateType.ScreenThree;
 
-    private void OnEnable()
-    {
-        buttonScreenThree.onClick.AddListener(GoToScreenThree);
-    }
-
-    private void OnDisable()
-    {
-        buttonScreenThree.onClick.RemoveListener(GoToScreenThree);
-    }
 
     private async void GoToScreenThree()
     {
@@ -41,5 +32,15 @@ public class ScreenTwo : R_State
     private async Task Espera(int milisegundos)
     {
         await Task.Delay(milisegundos);
+    }
+
+    public override void ActivateState()
+    {
+        buttonScreenThree.onClick.AddListener(GoToScreenThree);
+    }
+
+    public override void DeactivateState()
+    {
+        buttonScreenThree.onClick.RemoveListener(GoToScreenThree);
     }
 }
